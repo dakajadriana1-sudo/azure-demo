@@ -16,8 +16,13 @@ permissions:
 
 jobs:
   login-and-test:
-    name: Login with OIDC
+    name: Login with OIDC (${{ matrix.environment }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [dev, tst]
+
+    environment: ${{ matrix.environment }}
 
     steps:
       - name: Checkout
@@ -32,7 +37,7 @@ jobs:
 
       - name: Show account info
         run: |
-          echo "=== Account Info ==="
+          echo "=== Account Info (${{ matrix.environment }}) ==="
           az account show --output table
 
       - name: List resource groups
